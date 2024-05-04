@@ -1,18 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioMixerHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private const string Master = nameof(Master);
+    private const string Mute = nameof(Mute);
+    private const string Unmute = nameof(Unmute);
+
+    private const float MinVolume = -80f;
+    private const float MaxVolume = 20f;
+    private const float DefaultVolume = 0f;
+
+    [SerializeField] private AudioMixer _audioMixer;
+    [SerializeField] private Button _resetButton;
+    [SerializeField] private Button _muteButton;
+
+    private bool _isMuted;
+    private float _currentVolume;
+
+    public event Action<float> VolumeValueReseted;
+
+    public void ToggleMuting()
     {
+        if (_isMuted == false)
+            _audioMixer.GetFloat(Master, out _currentVolume);
+
+        _isMuted = !_isMuted;
+        _audioMixer.SetFloat(Master, _isMuted ? MinVolume : _currentVolume);
         
+        _muteButton.GetComponentInChildren<TMP_Text>().text = _isMuted ? Unmute : Mute;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ResetVolume()
     {
-        
+        VolumeValueReseted?.Invoke(DefaultVolume);
     }
 }
