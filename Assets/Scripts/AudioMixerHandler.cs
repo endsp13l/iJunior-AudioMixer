@@ -1,8 +1,8 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using TMPro;
 
 public class AudioMixerHandler : MonoBehaviour
 {
@@ -11,7 +11,6 @@ public class AudioMixerHandler : MonoBehaviour
     private const string Unmute = nameof(Unmute);
 
     private const float MinVolume = -80f;
-    private const float MaxVolume = 20f;
     private const float DefaultVolume = 0f;
 
     [SerializeField] private AudioMixer _audioMixer;
@@ -21,7 +20,7 @@ public class AudioMixerHandler : MonoBehaviour
     private bool _isMuted;
     private float _currentVolume;
 
-    public event Action<float> VolumeValueReseted;
+    public event Action<float> VolumeReseted;
 
     public void ToggleMuting()
     {
@@ -36,6 +35,6 @@ public class AudioMixerHandler : MonoBehaviour
 
     public void ResetVolume()
     {
-        VolumeValueReseted?.Invoke(DefaultVolume);
+        VolumeReseted?.Invoke(DefaultVolume);
     }
 }
