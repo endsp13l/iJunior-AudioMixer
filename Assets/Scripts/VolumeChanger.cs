@@ -5,8 +5,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class VolumeChanger : MonoBehaviour
 {
-    private const float MinVolume = -80f;
-    private const float MaxVolume = 20f;
+    private const float MinSliderValue = 0.0001f;
+    private const float MaxSliderValue = 1f;
+    private const float VolumeRatio = 20f;
 
     [SerializeField] private AudioMixerHandler _audioMixer;
     [SerializeField] private AudioMixerGroup _audioMixerGroup;
@@ -16,8 +17,8 @@ public class VolumeChanger : MonoBehaviour
     private void Awake()
     {
         _slider = GetComponent<Slider>();
-        _slider.minValue = MinVolume;
-        _slider.maxValue = MaxVolume;
+        _slider.minValue = MinSliderValue;
+        _slider.maxValue = MaxSliderValue;
     }
 
     private void OnEnable()
@@ -32,7 +33,7 @@ public class VolumeChanger : MonoBehaviour
 
     public void ChangeVolume(float value)
     {
-        _audioMixerGroup.audioMixer.SetFloat(_audioMixerGroup.name, value);
+        _audioMixerGroup.audioMixer.SetFloat(_audioMixerGroup.name, Mathf.Log10(value) * VolumeRatio);
         _slider.value = value;
     }
 }

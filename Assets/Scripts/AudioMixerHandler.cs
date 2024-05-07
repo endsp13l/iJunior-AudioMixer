@@ -10,8 +10,8 @@ public class AudioMixerHandler : MonoBehaviour
     private const string Mute = nameof(Mute);
     private const string Unmute = nameof(Unmute);
 
-    private const float MinVolume = -80f;
-    private const float DefaultVolume = 0f;
+    private const float MinVolume = 0f;
+    private const float DefaultVolume = 0.8f;
 
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private Button _resetButton;
