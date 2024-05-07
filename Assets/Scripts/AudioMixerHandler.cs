@@ -10,31 +10,31 @@ public class AudioMixerHandler : MonoBehaviour
     private const string Mute = nameof(Mute);
     private const string Unmute = nameof(Unmute);
 
-    private const float MinVolume = 0f;
-    private const float DefaultVolume = 0.8f;
+    private const float MuteMixerLevel = -80f;
+    private const float DefaultLevelValue = 0.8f;
 
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private Button _resetButton;
     [SerializeField] private Button _muteButton;
 
     private bool _isMuted;
-    private float _currentVolume;
+    private float _currentLevel;
 
     public event Action<float> VolumeReseted;
 
     public void ToggleMuting()
     {
         if (_isMuted == false)
-            _audioMixer.GetFloat(Master, out _currentVolume);
+            _audioMixer.GetFloat(Master, out _currentLevel);
 
         _isMuted = !_isMuted;
-        _audioMixer.SetFloat(Master, _isMuted ? MinVolume : _currentVolume);
+        _audioMixer.SetFloat(Master, _isMuted ? MuteMixerLevel : _currentLevel);
         
         _muteButton.GetComponentInChildren<TMP_Text>().text = _isMuted ? Unmute : Mute;
     }
 
     public void ResetVolume()
     {
-        VolumeReseted?.Invoke(DefaultVolume);
+        VolumeReseted?.Invoke(DefaultLevelValue);
     }
 }
